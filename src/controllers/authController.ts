@@ -23,6 +23,18 @@ export const register = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Invalid email format' });
     }
 
+    if (password.length < 8) {
+        return res.status(400).json({ message: 'Password must be at least 8 characters long' });
+    } else if (!/[A-Z]/.test(password)) {
+        return res.status(400).json({ message: 'Password must contain at least one uppercase letter' });
+    } else if (!/[a-z]/.test(password)) {
+        return res.status(400).json({ message: 'Password must contain at least one lowercase letter' });
+    } else if (!/\d/.test(password)) {
+        return res.status(400).json({ message: 'Password must contain at least one number' });
+    } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password)) {
+        return res.status(400).json({ message: 'Password must contain at least one special character' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
