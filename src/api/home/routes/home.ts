@@ -1,6 +1,6 @@
 // src/routes/helloRoutes.ts
 import express from 'express';
-import { sayHello, sayHelloToName } from '../controllers/helloController';
+import { sayHello, sayHelloToName } from '../controllers/home';
 
 const router = express.Router();
 
