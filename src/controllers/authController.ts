@@ -7,10 +7,8 @@ const prisma = new PrismaClient();
 
 export const register = async (req: Request, res: Response) => {
     const { email, password, fullname } = req.body;
-    console.log(email, password, fullname);
     
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log(hashedPassword);
     
     try {
         const user = await prisma.user.create({
