@@ -18,8 +18,13 @@ export const register = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Fullname is required' });
     }
     
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'Invalid email format' });
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    
+
     try {
         const user = await prisma.user.create({
             data: { email, password: hashedPassword, fullname }
