@@ -7,6 +7,16 @@ const prisma = new PrismaClient();
 
 export const register = async (req: Request, res: Response) => {
     const { email, password, fullname } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+    }
+    if (!password) {
+        return res.status(400).json({ message: 'Password is required' });
+    }
+    if (!fullname) {
+        return res.status(400).json({ message: 'Fullname is required' });
+    }
     
     const hashedPassword = await bcrypt.hash(password, 10);
     
@@ -26,6 +36,13 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+    }
+    if (!password) {
+        return res.status(400).json({ message: 'Password is required' });
+    }
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
